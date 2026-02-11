@@ -1,0 +1,24 @@
+services:
+  panel:
+    build: "./"
+    image: ${IMAGE_NAME}:${IMAGE_VERSION}
+    container_name: ${IMAGE_NAME}_v${IMAGE_VERSION}
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "3"
+        max-size: "100m"
+    env_file:
+      - .env
+#      - .env.onigiri
+#      - .env.production
+    ports:
+      - ${IMAGE_PORT}:${APP_PORT} # external:internal mapping
+#    extra_hosts:
+#      - host.docker.internal:host-gateway
+    volumes:
+      - ${HOST_LOG_PATH}:${CONTAINER_LOG_PATH}
+    restart: on-failure
+#    environment:
+#      - DB_HOST=host.docker.internal
+#      - REDIS_HOST=host.docker.internal
